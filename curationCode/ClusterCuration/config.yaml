@@ -1,0 +1,19 @@
+bucket_name: "noaa-passive-bioacoustic"
+
+paths:
+  ais_info: "Administration/AISInformation.xlsx"
+  embedding_save_root: "/projects/0/vusr0637/Conformer"
+  hkmeans_model_root: "models/hkmeans"
+  curated_root: "Curated"
+  final_curation_output: "/projects/0/vusr0637/test/"
+  temp_output: "/projects/0/vusr0637/temp/0/"
+
+audio:
+  samplerate: 16000
+  sample_size: 10
+
+hkmeans:
+  n_clusters: [6000, 400, 40, 10]
+  n_levels: 4
+  sample_sizes: [2200, 8, 5, 2]
+  N_total: 731447

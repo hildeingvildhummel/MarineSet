@@ -1,0 +1,17 @@
+# ===============================
+# AIS → Audio extraction config
+# ===============================
+
+curation:
+  run: false        # force re-run AIS curation
+  t: 250
+  ais_folder: AISalignment/
+
+paths:
+  info_excel: Administration/AISInformation.xlsx
+  selection_dir: Selection
+  temp_dir: temp
+  output_dir: AIS
+
+cloud:
+  bucket_name: noaa-passive-bioacoustic
