@@ -16,7 +16,7 @@ This repository contains:
 
 ## Overview
 
-Passive acoustic monitoring systems can collect large quantities of underwater audio over extended periods. These recordings contain information about vessels, marine mammals, environmental processes, and other acoustic events. However, manually annotating recordings at this scale is challenging.
+Passive acoustic monitoring systems can collect large quantities of underwater audio over extended periods. These recordings contain information about vessels, marine mammals, environmental processes, and other acoustic events.
 
 MarineSet addresses this problem through the automatic curation of large collections of underwater acoustic recordings. The dataset combines complementary curation strategies to construct a diverse collection of recordings suitable for machine learning and self-supervised representation learning.
 
