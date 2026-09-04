@@ -10,7 +10,7 @@ This repository contains the code used for the MarineSet curation pipeline, asso
 
 ## Overview
 
-Passive acoustic monitoring systems generate large volumes of underwater acoustic recordings. These recordings contain information about vessels, marine mammals, and other components of the marine soundscape. However, manually annotating such large datasets is expensive and difficult to scale.
+Passive acoustic monitoring systems generate large volumes of underwater acoustic recordings. These recordings contain information about vessels, marine mammals, and other components of the marine soundscape.
 
 MarineSet addresses this challenge through **automated data curation**. The curation pipeline combines information from vessel tracking data with acoustic representations to select relevant and diverse recordings from large collections of underwater audio.
 
