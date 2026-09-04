@@ -108,18 +108,6 @@ Alternatively, a different configuration file can be supplied:
 python main.py --config <path_to_config.yaml>
 ```
 
-The AIS curation parameter `t` can also be overridden from the command line:
-
-```bash
-python main.py --config <path_to_config.yaml> --t <value>
-```
-
-To explicitly rerun the AIS curation rather than using an existing curated AIS selection:
-
-```bash
-python main.py --config <path_to_config.yaml> --run-curation
-```
-
 The pipeline stores the resulting AIS selection as a pickle file and subsequently passes this selection to the audio extraction stage.
 
 ### Downloading NOAA audio using the AIS selection
