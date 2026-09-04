@@ -343,18 +343,6 @@ If you use MarineSet, please cite the associated MarineSet publication once it i
 }
 ```
 
-If you use the Watkins Marine Mammal Sound Database split provided in this repository, please also cite the BEANS benchmark:
-
-```bibtex
-@article{hagiwara2022beans,
-  title         = {BEANS: The Benchmark of Animal Sounds},
-  author        = {Hagiwara, Masato and Hoffman, Benjamin and Liu, Jen-Yu and Cusimano, Maddie and Effenberger, Felix and Zacarian, Katie},
-  journal       = {arXiv preprint arXiv:2210.12300},
-  year          = {2022},
-  doi           = {10.48550/arXiv.2210.12300}
-}
-```
-
 
 ### AIS-based curation
 
