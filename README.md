@@ -72,6 +72,21 @@ The cluster-based curation resulted in:
 
 The two curation strategies provide complementary approaches to selecting representative underwater acoustic recordings.
 
+## Data Availability
+
+The final MarineSet data publication is currently **work in progress**.
+
+The curated MarineSet data will be made publicly available through Zenodo. A DOI and direct download instructions will be added to this repository once the Zenodo record has been published.
+
+> **Data release: Work in progress**
+>
+> The MarineSet data are currently being prepared for publication on Zenodo.
+> The Zenodo DOI will be added to this README once the data release is available.
+>
+> **Zenodo DOI:** *To be added*
+
+Until the Zenodo release is available, the repository contains the code used to construct MarineSet and the code required to retrieve selected recordings from the underlying NOAA data source (for instructions see below).
+
 ## Downstream datasets
 
 The repository also contains the code used to prepare the labeled datasets used for downstream evaluation.
@@ -506,21 +521,6 @@ The curation code is provided primarily to:
 - support methodological research on large-scale underwater acoustic data curation.
 
 Once the MarineSet data are released on Zenodo, the recommended approach for users is to download the **pre-curated dataset** rather than rerunning the complete HK-means pipeline.
-
-## Data Availability
-
-The final MarineSet data publication is currently **work in progress**.
-
-The curated MarineSet data will be made publicly available through Zenodo. A DOI and direct download instructions will be added to this repository once the Zenodo record has been published.
-
-> **Data release: Work in progress**
->
-> The MarineSet data are currently being prepared for publication on Zenodo.
-> The Zenodo DOI will be added to this README once the data release is available.
->
-> **Zenodo DOI:** *To be added*
-
-Until the Zenodo release is available, the repository contains the code used to construct MarineSet and the code required to retrieve selected recordings from the underlying NOAA data source.
 
 ## Reproducing the MarineSet data download
 
