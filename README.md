@@ -133,6 +133,17 @@ DeepShip contains four ship categories:
 - Tanker
 - Tug
 
+The dataset originates from:
+
+> Irfan, M., Jiangbin, Z., Ali, S., Iqbal, M., Masood, Z., & Hamid, U. (2021). **DeepShip: An underwater acoustic benchmark dataset and a separable convolution based autoencoder for classification**. *Expert Systems with Applications, 183*, 115270. https://doi.org/10.1016/j.eswa.2021.115270
+
+The DeepShip dataset consists of 47 hours and 4 minutes of real-world underwater recordings from 265 ships belonging to the four ship categories listed above. The recordings were collected using infrastructure from Ocean Networks Canada.
+
+The original paper and dataset information can be found at:
+
+- [DeepShip paper](https://doi.org/10.1016/j.eswa.2021.115270)
+- [DeepShip GitHub repository](https://github.com/irfankamboh/DeepShip)
+
 The split implemented in:
 
 ```text
@@ -154,6 +165,16 @@ Thus, the DeepShip split is **temporal rather than random**.
 This is important when comparing results, as the model is evaluated on recordings from a later period than those used for training.
 
 ### ShipsEar
+
+The ShipsEar dataset originates from:
+
+> Santos-Domínguez, D., Torres-Guijarro, S., Cardenal-López, A., & Peña-Giménez, A. (2016). **ShipsEar: An underwater vessel noise database**. *Applied Acoustics, 113*, 64–69. https://doi.org/10.1016/j.apacoust.2016.06.008
+
+ShipsEar is an underwater vessel noise database containing recordings of different vessel types and background noise collected in the Atlantic Ocean near the coast of Spain.
+
+The original paper can be found at:
+
+- [ShipsEar paper](https://doi.org/10.1016/j.apacoust.2016.06.008)
 
 ShipsEar uses explicit train, validation, and test split files:
 
@@ -221,6 +242,20 @@ The script therefore preserves the train/validation/test partition specified by 
 If the Watkins dataset is used, the BEANS paper should be cited.
 
 ### DCLDE 2026
+
+The data originates from:
+
+> Palmer, K., et al. (2025). **A Public Dataset of Annotated *Orcinus orca* Acoustic Signals for Detection and Ecotype Classification**. *Scientific Data*. https://doi.org/10.1038/s41597-025-05281-5
+
+The dataset contains annotated acoustic recordings of killer whales (*Orcinus orca*), as well as recordings and annotations of other marine mammal species and abiotic sounds. The data were compiled from multiple sources and recording deployments across Alaska, British Columbia, and Washington.
+
+The dataset is publicly available through the NOAA National Centers for Environmental Information (NCEI):
+
+- [DCLDE 2026 dataset](https://doi.org/10.25921/15ey-mh50)
+
+The associated dataset publication can be found at:
+
+- [A Public Dataset of Annotated *Orcinus orca* Acoustic Signals for Detection and Ecotype Classification](https://doi.org/10.1038/s41597-025-05281-5)
 
 For the DCLDE 2026 classification, only the calls are extracted from the complete dataset. The extraction is performed by defining the call from the annotations and extract 5 second windows. The call is randomly placed within the window, ensuring the complete call is present. The windowed data can be downloaded using: 
 
