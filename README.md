@@ -70,9 +70,9 @@ Vessel-associated recordings
         |
         v
 MarineSet samples
+```
 
 The AIS curation code is located in:
-```
 
 ```text
 curationCode/AISCuration/
@@ -144,71 +144,6 @@ The directory contains code for:
 - Vessel selection
 - Recording selection
 - Data administration
-
----
-
-### Acoustic Cluster-Based Curation
-
-The second curation strategy uses the acoustic content of the recordings rather than relying on labels.
-
-Audio recordings are converted into learned acoustic representations and subsequently clustered using hierarchical k-means (HK-means).
-
-The clustering hierarchy is:
-
-```text
-6000
-  |
-  v
-400
-  |
-  v
-40
-  |
-  v
-10
-```
-
-This hierarchical approach allows recordings to be grouped at multiple levels of acoustic similarity.
-
-The general workflow is:
-
-```text
-Underwater recordings
-        |
-        v
-Acoustic representation
-        |
-        v
-Embedding extraction
-        |
-        v
-Hierarchical k-means
-        |
-        v
-Acoustic clusters
-        |
-        v
-Hierarchical sampling
-        |
-        v
-MarineSet samples
-```
-
-The cluster-based curation code is located in:
-
-```text
-curationCode/ClusterCuration/
-```
-
-The directory contains code for:
-
-- Acoustic embedding extraction
-- Encoder configuration
-- k-means clustering
-- Hierarchical k-means
-- Cluster management
-- Hierarchical sampling
-- Audio selection
 
 ---
 
