@@ -1,0 +1,230 @@
+,ID,Filename,Name,Type,Pic,Date,H_G_D,Video,Channel Depth,Wind,AIS LINK,Distance,Atmospheric & Oceanographic Data,Duration,Notes
+87,94,94__A__Draga_2.wav,Moanha tests sample 2,Dredger,https://atlanttic.uvigo.es/underwaternoise/fotos/adricristuy.jpg,2014-03-06 00:00:00,"(2),(16),(5)",No,12.0,Not available,http://www.xolda.net/canlemar/maquinaria3.php,100 m,Not available,0:50,Dredger Adricristuy recording during Moanha measurements campaign for ECODRAGA project. Sea bottom was basically mud.
+5,7,7__10_07_13_marDeCangas_Espera.wav,Mar de Cangas (Waiting),Passengers,https://atlanttic.uvigo.es/underwaternoise/fotos/marDeCangas.gif,2013-07-10 12:25:00,"(2),(4),(2.85)",NO,4.8,0,http://www.marinetraffic.com/ais/en/shipdetails.aspx?mmsi=224084240,<50,"Mean air temperature (ºC) 18,9
+Maximum air temperature (ºC) 20,5
+Minimum air temperature (ºC) 17,4
+Mean relative humidity (%) 95
+Maximum relative humidity (%) 100
+Minimum relative humidity (%) 87
+Dew temperature (ºC) 18
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 11,66
+Streak (km/h) 28,22
+Streak direction (Degrees) 248
+Main wind direction(Degrees) 270
+Rain (L/m2) 0",1:00,First series of recordings. There is not in situ wind speed measures. Quite harbor noise. Waiting during passengers unloading.
+36,34,34__19_07_13_MarDeOnza_Llega.wav,Mar de Onza (arrives),Passengers,https://atlanttic.uvigo.es/underwaternoise/fotos/marOnza.gif,2013-07-19 12:24:00,"(1,2)(2,32)(2.5,3.5)",SI,5.8,13,http://www.marinetraffic.com/ais/en/shipdetails.aspx?MMSI=224081370,<50,"Mean air temperature (ºC) 23,4
+Maximum air temperature (ºC) 31
+Minimum air temperature (ºC) 17,4
+Mean relative humidity (%) 68
+Maximum relative humidity (%) 100
+Minimum relative humidity (%) 44
+Dew temperature (ºC) 16,5
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 11,81
+Streak (km/h) 36,94
+Streak direction (Degrees) 2
+Main wind direction(Degrees) 45
+Rain (L/m2) 0",2:03,"Considerable harbour noise. H2 not available. Mar de Onza arriving at port. Low signal, Minho uno in the distance."
+6,13,13__10_07_13_piraCies_Entra.wav,Pirata de Cies (Entering),Passengers,https://atlanttic.uvigo.es/underwaternoise/fotos/pirataDeCies.jpg,2013-07-10 12:26:00,"(2),(4),(2.85)",NO,4.8,0,http://www.marinetraffic.com/ais/en/shipdetails.aspx?mmsi=224924990&header=true,<50,"Mean air temperature (ºC) 18,9
+Maximum air temperature (ºC) 20,5
+Minimum air temperature (ºC) 17,4
+Mean relative humidity (%) 95
+Maximum relative humidity (%) 100
+Minimum relative humidity (%) 87
+Dew temperature (ºC) 18
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 11,66
+Streak (km/h) 28,22
+Streak direction (Degrees) 248
+Main wind direction(Degrees) 270
+Rain (L/m2) 0",3:27,First series of recordings. There is not in situ wind speed measures. Quite harbor noise. Entering the port for docking.
+59,65,65__23_07_13_H3_MinhoUno_LLEGA.wav,Minho uno (arrives),Passengers,https://atlanttic.uvigo.es/underwaternoise/fotos/minoUno.jpg,2013-07-23 14:55:00,"(1,2,3)(2,16,64)(5.5,6.5,7.5)",SI,12.0,10.5,http://www.marinetraffic.com/ais/en/shipdetails.aspx?mmsi=224117120,50-100,"Mean air temperature (ºC) 20
+Maximum air temperature (ºC) 22,7
+Minimum air temperature (ºC) 17
+Mean relative humidity (%) 81
+Maximum relative humidity (%) 93
+Minimum relative humidity (%) 65
+Dew temperature (ºC) 16,5
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 13,28
+Streak (km/h) 43,34
+Streak direction (Degrees) 4
+Main wind direction(Degrees) 225
+Rain (L/m2) 0",2:43,"Zone 2 - in front of Cangas. Choppy sea. Recording with better gain without clipping is presented. Other signals available. Signal in H3, arriving to Cangas port."
+10,8,8__10_07_13_marDeOnza_Entra.wav,Mar de Onza (Entering),Passengers,https://atlanttic.uvigo.es/underwaternoise/fotos/marOnza.gif,2013-07-10 12:48:00,"(2),(4),(2.85)",NO,4.8,0,http://www.marinetraffic.com/ais/shipdetails.aspx?mmsi=224081370,<50,"Mean air temperature (ºC) 18,9
+Maximum air temperature (ºC) 20,5
+Minimum air temperature (ºC) 17,4
+Mean relative humidity (%) 95
+Maximum relative humidity (%) 100
+Minimum relative humidity (%) 87
+Dew temperature (ºC) 18
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 11,66
+Streak (km/h) 28,22
+Streak direction (Degrees) 248
+Main wind direction(Degrees) 270
+Rain (L/m2) 0",1:33,First series of recordings. There is not in situ wind speed measures. Quite harbor noise. Entering the port for docking.
+61,64,64__23_07_13_H3_MarDeOnza_SALE.wav,Mar de Onza (leaves),Passengers,https://atlanttic.uvigo.es/underwaternoise/fotos/marOnza.gif,2013-07-23 15:08:00,"(1,2,3)(2,16,64)(5.5,6.5,7.5)",SI,12.0,10.5,http://www.marinetraffic.com/ais/en/shipdetails.aspx?mmsi=224081370,50-100,"Mean air temperature (ºC) 20
+Maximum air temperature (ºC) 22,7
+Minimum air temperature (ºC) 17
+Mean relative humidity (%) 81
+Maximum relative humidity (%) 93
+Minimum relative humidity (%) 65
+Dew temperature (ºC) 16,5
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 13,28
+Streak (km/h) 43,34
+Streak direction (Degrees) 4
+Main wind direction(Degrees) 225
+Rain (L/m2) 0",2:13,"Zone 2 - in front of Cangas. Choppy sea. Recording with better gain without clipping is presented. Other signals available. Signal in H3, leaving Cangas port."
+3,15,15__10_07_13_radaUno_Pasa.wav,Rada Uno (Passing),Tugboat,https://atlanttic.uvigo.es/underwaternoise/fotos/sinFoto.jpg,2013-07-10 00:00:00,"(2),(4),(2.85)",NO,9.1,0, ,<50,"Mean air temperature (ºC) 18,9
+Maximum air temperature (ºC) 20,5
+Minimum air temperature (ºC) 17,4
+Mean relative humidity (%) 95
+Maximum relative humidity (%) 100
+Minimum relative humidity (%) 87
+Dew temperature (ºC) 18
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 11,66
+Streak (km/h) 28,22
+Streak direction (Degrees) 248
+Main wind direction(Degrees) 270
+Rain (L/m2) 0",2:22,First series of recordings. There is not in situ wind speed measures. Quite harbor noise.
+63,71,71__23_07_13_H3_Discovery_UK_DUDA.wav,Discovery UK,Ocean liner,https://atlanttic.uvigo.es/underwaternoise/fotos/discoveryUk.jpg,2013-07-23 16:05:00,"(1,2,3)(2,16,64)(5.5,6.5,7.5)",NO,14.0,18,http://www.marinetraffic.com/ais/shipdetails.aspx?mmsi=310382000,>100,"Mean air temperature (ºC) 20
+Maximum air temperature (ºC) 22,7
+Minimum air temperature (ºC) 17
+Mean relative humidity (%) 81
+Maximum relative humidity (%) 93
+Minimum relative humidity (%) 65
+Dew temperature (ºC) 16,5
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 13,28
+Streak (km/h) 43,34
+Streak direction (Degrees) 4
+Main wind direction(Degrees) 225
+Rain (L/m2) 0",2:15,"Vigo sea loch - Zone 3 - in front of Alcabre beach. Recording with better gain without clipping is presented. Other signals available. Signal in H3, ocean liner leaving Vigo sea loch. There's no video but there are notes indicating interferences from a motorboat and Playa Beluso fishboat. Small signal and high interferences."
+72,69,69__23_07_13_H2_costaVoyager.wav,Costa Voyager,Ocean liner,https://atlanttic.uvigo.es/underwaternoise/fotos/costaVoyager.jpg,2013-07-23 18:30:00,"(1,2,3)(2,16,64)(5.5,6.5,7.5)",SI,14.0,18,http://www.marinetraffic.com/ais/en/shipdetails.aspx?mmsi=247312800,50-100,"Mean air temperature (ºC) 20
+Maximum air temperature (ºC) 22,7
+Minimum air temperature (ºC) 17
+Mean relative humidity (%) 81
+Maximum relative humidity (%) 93
+Minimum relative humidity (%) 65
+Dew temperature (ºC) 16,5
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 13,28
+Streak (km/h) 43,34
+Streak direction (Degrees) 4
+Main wind direction(Degrees) 225
+Rain (L/m2) 0",6:40,"Vigo sea loch - Zone 3 - in front of Alcabre beach. Recording with better gain without clipping is presented. Other signals available. Signal in H2, ocean liner leaving Vigo sea loch. Aprox speed 15 knots."
+71,70,70__23_07_13_H2_yatePeq.wav,Small yacht,Motorboat,https://atlanttic.uvigo.es/underwaternoise/fotos/sinFoto.jpg,2013-07-23 18:21:00,"(1,2,3)(2,16,64)(5.5,6.5,7.5)",NO,14.0,18, ,<50,"Mean air temperature (ºC) 20
+Maximum air temperature (ºC) 22,7
+Minimum air temperature (ºC) 17
+Mean relative humidity (%) 81
+Maximum relative humidity (%) 93
+Minimum relative humidity (%) 65
+Dew temperature (ºC) 16,5
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 13,28
+Streak (km/h) 43,34
+Streak direction (Degrees) 4
+Main wind direction(Degrees) 225
+Rain (L/m2) 0",1:54,"Vigo sea loch - Zone 3 - in front of Alcabre beach. Recording with better gain without clipping is presented. Other signals available. Signal in H2, 6m length yacht passing."
+64,77,77__23_07_13_H3_Planeadora.wav,High speed motorboat,Motorboat,https://atlanttic.uvigo.es/underwaternoise/fotos/sinFoto.jpg,2013-07-23 16:15:00,"(1,2,3)(2,16,64)(5.5,6.5,7.5)",NO,14.0,18, ,50-100,"Mean air temperature (ºC) 20
+Maximum air temperature (ºC) 22,7
+Minimum air temperature (ºC) 17
+Mean relative humidity (%) 81
+Maximum relative humidity (%) 93
+Minimum relative humidity (%) 65
+Dew temperature (ºC) 16,5
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 13,28
+Streak (km/h) 43,34
+Streak direction (Degrees) 4
+Main wind direction(Degrees) 225
+Rain (L/m2) 0",1:32,"Vigo sea loch - Zone 3 - in front of Alcabre beach. Recording with better gain without clipping is presented. Other signals available. Signal in H3, high power motorboat passing."
+69,72,72__23_07_13_H3_lancha2.wav,Motorboat 2,Motorboat,https://atlanttic.uvigo.es/underwaternoise/fotos/sinFoto.jpg,2013-07-23 17:17:00,"(1,2,3)(2,16,64)(5.5,6.5,7.5)",NO,14.0,18, ,<50,"Mean air temperature (ºC) 20
+Maximum air temperature (ºC) 22,7
+Minimum air temperature (ºC) 17
+Mean relative humidity (%) 81
+Maximum relative humidity (%) 93
+Minimum relative humidity (%) 65
+Dew temperature (ºC) 16,5
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 13,28
+Streak (km/h) 43,34
+Streak direction (Degrees) 4
+Main wind direction(Degrees) 225
+Rain (L/m2) 0",2:03,"Vigo sea loch - Zone 3 - in front of Alcabre beach. Recording with better gain without clipping is presented. Other signals available. Signal in H3, motorboat passing. Possible interference at the end of the recording."
+14,18,18__18_07_13_AutoPrideEntra.wav,Autopride (Entering),RORO,https://atlanttic.uvigo.es/underwaternoise/fotos/autopride.jpg,2013-07-18 18:20:00,"(1,2)(2,32)(2.5,3.5)",SI,7.5,2,http://www.marinetraffic.com/ais/en/shipdetails.aspx?mmsi=255801560&header=true,<50,"Mean air temperature (ºC) 23,4
+Maximum air temperature (ºC) 31
+Minimum air temperature (ºC) 17,4
+Mean relative humidity (%) 68
+Maximum relative humidity (%) 100
+Minimum relative humidity (%) 44
+Dew temperature (ºC) 16,5
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 11,81
+Streak (km/h) 36,94
+Streak direction (Degrees) 2
+Main wind direction(Degrees) 45
+Rain (L/m2) 0",11:22,"Recorded at Bouzas cove, at the end of the walk zone, in a place with rocks. Clear video, no apparent interferences. Considerable rock noise. Ship reaches the port. H2 saturated!"
+28,29,29__19_07_13_practico.wav,Pilot ship,Pilot ship,https://atlanttic.uvigo.es/underwaternoise/fotos/19_07_13_practico.png,2013-07-19 09:37:00,"(1,2)(2,32)(2.5,3.5)",SI,5.8,0, ,<50,"Mean air temperature (ºC) 23,4
+Maximum air temperature (ºC) 31
+Minimum air temperature (ºC) 17,4
+Mean relative humidity (%) 68
+Maximum relative humidity (%) 100
+Minimum relative humidity (%) 44
+Dew temperature (ºC) 16,5
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 11,81
+Streak (km/h) 36,94
+Streak direction (Degrees) 2
+Main wind direction(Degrees) 45
+Rain (L/m2) 0",1:34,"Small background noise from ship ""Rio Caxil"", there's also some harbor noise, H2 saturated, only H1 was considerate. Pilot ship arrives before Adventure of the Seas. Small signal."
+62,68,68__23_07_13_H3_veleroMarisol.wav,Sailboat,Sailboat,https://atlanttic.uvigo.es/underwaternoise/fotos/sinFoto.jpg,2013-07-23 15:13:00,"(1,2,3)(2,16,64)(5.5,6.5,7.5)",SI,12.0,10.5, ,<50,"Mean air temperature (ºC) 20
+Maximum air temperature (ºC) 22,7
+Minimum air temperature (ºC) 17
+Mean relative humidity (%) 81
+Maximum relative humidity (%) 93
+Minimum relative humidity (%) 65
+Dew temperature (ºC) 16,5
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 13,28
+Streak (km/h) 43,34
+Streak direction (Degrees) 4
+Main wind direction(Degrees) 225
+Rain (L/m2) 0",4:57,"Zone 2 - in front of Cangas. Choppy sea. Recording with better gain without clipping is presented. Other signals available. Signal in H3, recording of the measurements sailboat on his way back to hydrophone pick up."
+44,47,47__23_07_13_H2_bateero2.wav,Mussel boat2,Mussel boat,https://atlanttic.uvigo.es/underwaternoise/fotos/23_07_13_bateero2.png,2013-07-23 12:25:00,"(1,2,3)(2,16,64)(5.5,6.5,7.5)",SI,15.0,10.5, ,<50,"Mean air temperature (ºC) 20
+Maximum air temperature (ºC) 22,7
+Minimum air temperature (ºC) 17
+Mean relative humidity (%) 81
+Maximum relative humidity (%) 93
+Minimum relative humidity (%) 65
+Dew temperature (ºC) 16,5
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 13,28
+Streak (km/h) 43,34
+Streak direction (Degrees) 4
+Main wind direction(Degrees) 225
+Rain (L/m2) 0",5:14,"Zone 1 - in front of Moaña. Recording with better gain without clipping is presented. Other signals available. H2 signal, close take."
+67,73,73__23_07_13_H3_pesqMariCarmen.wav,Mari Carmen fishboat,Fishboat,https://atlanttic.uvigo.es/underwaternoise/fotos/sinFoto.jpg,2013-07-23 16:45:00,"(1,2,3)(2,16,64)(5.5,6.5,7.5)",NO,14.0,18, ,<50,"Mean air temperature (ºC) 20
+Maximum air temperature (ºC) 22,7
+Minimum air temperature (ºC) 17
+Mean relative humidity (%) 81
+Maximum relative humidity (%) 93
+Minimum relative humidity (%) 65
+Dew temperature (ºC) 16,5
+Cold hours (7 ºC base) (h) 0
+Wind speed (km/h) 13,28
+Streak (km/h) 43,34
+Streak direction (Degrees) 4
+Main wind direction(Degrees) 225
+Rain (L/m2) 0",2:19,"Vigo sea loch - Zone 3 - in front of Alcabre beach. Recording with better gain without clipping is presented. Other signals available. Signal in H3, fishboat Maria del Carmen passing."
+80,91,91__E__7H_N.wav,Natural ambient noise sample 7,Natural ambient noise,https://atlanttic.uvigo.es/underwaternoise/fotos/cortegada.jpg,2013-09-25 00:00:00,(1)(64)(4.5),Not available,7.5,Not available,https://atlanttic.uvigo.es/underwaternoise/Not%20available,<50,Not available,0:34,Natural ambient noise measurement in Cortegada platform. Random sample measurement.
+84,82,82__27_09_13_H3_lluvia.wav,Maximum rain,Natural ambient noise,https://atlanttic.uvigo.es/underwaternoise/fotos/cortegada.jpg,2013-09-27 04:06:00,(1)(64)(4.5),No,7.5,3.34, ,<50m,"Flow - 11,42 cm/s
+Rain 2.9 L/m2
+Wave 1.5m
+Wind 3.34m/s",2:00,"Natural ambient noise measurement in Cortegada platform.
+Maximum rain result measured during this campaign."
+77,88,88__E__4L.wav,Natural ambient noise sample 4,Natural ambient noise,https://atlanttic.uvigo.es/underwaternoise/fotos/cortegada.jpg,2013-09-25 00:00:00,(1)(1)(4.5),Not available,7.5,Not available,https://atlanttic.uvigo.es/underwaternoise/Not%20available,<50,Not available,1:33,Natural ambient noise measurement in Cortegada platform. Random sample measurement.
