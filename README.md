@@ -522,6 +522,12 @@ The curation code is provided primarily to:
 
 Once the MarineSet data are released on Zenodo, the recommended approach for users is to download the **pre-curated dataset** rather than rerunning the complete HK-means pipeline.
 
+## Pretrained HK-Means Model
+
+The pretrained [HK-Means model](https://huggingface.co/hildehummel/HKmeans) used in this study is available on Hugging Face.
+
+The [Conformer model](https://huggingface.co/hildehummel/Conformer_UATR) used to generate the embeddings for training the HK-Means model is also available on Hugging Face.
+
 ## Reproducing the MarineSet data download
 
 The repository provides two related routes for obtaining acoustic data:
