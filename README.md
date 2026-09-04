@@ -207,6 +207,16 @@ If the Watkins dataset is used, the BEANS paper should be cited.
 
 ### DCLDE 2026
 
+For the DCLDE 2026 classification, only the calls are extracted from the complete dataset. The extraction is performed by defining the call from the annotations and extract 5 second windows. The call is randomly placed within the window, ensuring the complete call is present. The windowed data can be downloaded using: 
+
+```text
+MarineNet/classification_data/DCLDE2026_download.py
+```
+
+Since multiple calls from various species can be present within the extracted 5 second windows, this classfication is referred to as a multilabel setting. A window is considered multilabel if the intersection of the window length and annotation length / min( window length, annotation length) is greater than 0.3. Each annotation is treated individually. 
+
+Next, the data is split based on a chronological split similar to the Deepship split. Here, ~80\% of the data was used for training and the remaining ~20\% for testing. The time boundary was found at 2013-11-22 13:36:00.
+
 The DCLDE 2026 split is created using:
 
 ```text
@@ -215,27 +225,11 @@ MarineNet/classification_data/DCLDE2026_split.py
 
 The script reads the window metadata and reconstructs the recording datetime from the original recording path.
 
-Recordings are then sorted chronologically.
-
-The split is designed to allocate approximately:
-
-```text
-80% → training
-20% → testing
-```
-
 The important distinction is that the split is performed at the **recording level**, rather than independently for individual windows.
 
 This means that windows originating from the same recording are kept together in the same split. Consequently, a recording does not contribute windows to both the training and test sets.
 
-The resulting metadata files are:
-
-```text
-train.csv
-test.csv
-```
-
-and the corresponding audio windows are organized into:
+The corresponding audio windows are organized into:
 
 ```text
 train/
@@ -249,9 +243,9 @@ This chronological recording-level split reduces the possibility of temporal lea
 | Dataset | Task | Training split | Validation split | Test split | Split strategy |
 |---|---|---|---|---|---|
 | DeepShip | Ship type | Before 2017-12-01 | — | On/after 2017-12-01 | Temporal |
-| ShipsEar | Ship type | `shipsEar_train.csv` | `shipsEar_val.csv` | `shipsEar_test.csv` | Predefined split |
-| Watkins | Marine mammal calls | BEANS train split | BEANS validation split | BEANS test split | Stratified 6:2:2 |
-| DCLDE 2026 | Marine mammal calls | ~80% | — | ~20% | Chronological, recording-level |
+| ShipsEar | Ship type | `shipsEar_train.csv` | `shipsEar_val.csv` | `shipsEar_test.csv` | Stratified split |
+| Watkins | Marine mammal calls | BEANS train split | BEANS validation split | BEANS test split | Predefined split |
+| DCLDE 2026 | Marine mammal calls | Before 2013-11-22 12:36:00 | — | After 2013-11-22 13:36:00 | Temporal |
 
 ## MarineNet
 
