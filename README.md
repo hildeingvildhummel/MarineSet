@@ -51,6 +51,267 @@ The directory contains code for:
 - downloading selected audio from the NOAA Google Cloud Storage bucket; and
 - administrative and data-processing steps used during the construction of MarineSet.
 
+## MarineSet dataset statistics
+
+MarineSet was constructed using two complementary curation strategies.
+
+### AIS-based curation
+
+The AIS-based curation resulted in:
+
+- **968.2 hours** of acoustic data;
+- **6,540 unique vessels**; and
+- recordings from **28 hydrophones**.
+
+### HK-means-based curation
+
+The cluster-based curation resulted in:
+
+- **2,031.8 hours** of acoustic data; and
+- recordings from **43 hydrophones**.
+
+The two curation strategies provide complementary approaches to selecting representative underwater acoustic recordings.
+
+## Downstream datasets
+
+The repository also contains the code used to prepare the labeled datasets used for downstream evaluation.
+
+These datasets are divided into two categories:
+
+### Ship-type classification
+
+- DeepShip
+- ShipsEar
+
+### Marine mammal call classification
+
+- Watkins Marine Mammal Sound Database
+- DCLDE 2026
+
+The corresponding scripts are located in:
+
+```text
+MarineNet/classification_data/
+```
+
+The directory currently contains:
+
+```text
+MarineNet/classification_data/
+├── DCLDE2026_download.py
+├── DCLDE2026_split.py
+├── Watkins.py
+├── ship_data.py
+├── shipsEar_train.csv
+├── shipsEar_val.csv
+└── shipsEar_test.csv
+```
+
+## Ship-type dataset splits
+
+### DeepShip
+
+DeepShip contains four ship categories:
+
+- Cargo
+- Passengership
+- Tanker
+- Tug
+
+The split implemented in:
+
+```text
+MarineNet/classification_data/ship_data.py
+```
+
+is based on the recording date.
+
+The split boundary is:
+
+```text
+2017-12-01
+```
+
+Recordings before this date are assigned to the training set, while recordings on or after this date are assigned to the test set.
+
+Thus, the DeepShip split is **temporal rather than random**.
+
+This is important when comparing results, as the model is evaluated on recordings from a later period than those used for training.
+
+### ShipsEar
+
+ShipsEar uses explicit train, validation, and test split files:
+
+```text
+MarineNet/classification_data/shipsEar_train.csv
+MarineNet/classification_data/shipsEar_val.csv
+MarineNet/classification_data/shipsEar_test.csv
+```
+
+These files define the samples assigned to each split.
+
+The repository also contains code in:
+
+```text
+MarineNet/classification_data/ship_data.py
+```
+
+for organizing the ShipsEar audio according to these splits.
+
+## Marine mammal call dataset splits
+
+### Watkins Marine Mammal Sound Database
+
+The Watkins split used in this repository follows the split used by the **BEANS benchmark**.
+
+The split originates from:
+
+> Hagiwara et al., *BEANS: The Benchmark of Animal Sounds*, arXiv:2210.12300.
+
+The BEANS benchmark uses the Watkins Marine Mammal Sound Database with a **6:2:2 train/validation/test split**, with stratification across labels.
+
+Reference:
+
+```text
+https://arxiv.org/pdf/2210.12300
+```
+
+The corresponding split files are:
+
+```text
+annotations.train.csv
+annotations.valid.csv
+annotations.test.csv
+```
+
+The repository script:
+
+```text
+MarineNet/classification_data/Watkins.py
+```
+
+reads these annotation files and organizes the audio into:
+
+```text
+Data/watkins_split/
+├── train/
+├── val/
+└── test/
+```
+
+Within each split, audio files are further organized by their class label.
+
+The script therefore preserves the train/validation/test partition specified by the BEANS benchmark rather than generating a new random split.
+
+If the Watkins dataset is used, the BEANS paper should be cited.
+
+### DCLDE 2026
+
+The DCLDE 2026 split is created using:
+
+```text
+MarineNet/classification_data/DCLDE2026_split.py
+```
+
+The script reads the window metadata and reconstructs the recording datetime from the original recording path.
+
+Recordings are then sorted chronologically.
+
+The split is designed to allocate approximately:
+
+```text
+80% → training
+20% → testing
+```
+
+The important distinction is that the split is performed at the **recording level**, rather than independently for individual windows.
+
+This means that windows originating from the same recording are kept together in the same split. Consequently, a recording does not contribute windows to both the training and test sets.
+
+The resulting metadata files are:
+
+```text
+train.csv
+test.csv
+```
+
+and the corresponding audio windows are organized into:
+
+```text
+train/
+test/
+```
+
+This chronological recording-level split reduces the possibility of temporal leakage between training and testing.
+
+## Dataset split summary
+
+| Dataset | Task | Training split | Validation split | Test split | Split strategy |
+|---|---|---|---|---|---|
+| DeepShip | Ship type | Before 2017-12-01 | — | On/after 2017-12-01 | Temporal |
+| ShipsEar | Ship type | `shipsEar_train.csv` | `shipsEar_val.csv` | `shipsEar_test.csv` | Predefined split |
+| Watkins | Marine mammal calls | BEANS train split | BEANS validation split | BEANS test split | Stratified 6:2:2 |
+| DCLDE 2026 | Marine mammal calls | ~80% | — | ~20% | Chronological, recording-level |
+
+## MarineNet
+
+The repository also contains **MarineNet**, a baseline model for underwater acoustic representation learning.
+
+The MarineNet code is located in:
+
+```text
+MarineNet/
+```
+
+and contains:
+
+```text
+MarineNet/
+├── classification_data/
+├── support/
+├── Classification.py
+└── MarineNet.py
+```
+
+MarineNet is provided as a baseline for evaluating representations learned from the MarineSet data.
+
+The main focus of this repository, however, is the **MarineSet dataset and the large-scale data curation methodology** rather than MarineNet itself.
+
+## Publication
+
+The associated publication describing MarineSet is currently in preparation.
+
+> **Publication:** *To be added*
+
+A full citation and DOI will be added once the publication is available.
+
+## Citation
+
+If you use MarineSet, please cite the associated MarineSet publication once it is available.
+
+```bibtex
+@article{MarineSet,
+  title   = {To be added},
+  author  = {Hummel, Hilde},
+  journal = {To be added},
+  year    = {2026},
+  doi     = {To be added}
+}
+```
+
+If you use the Watkins Marine Mammal Sound Database split provided in this repository, please also cite the BEANS benchmark:
+
+```bibtex
+@article{hagiwara2022beans,
+  title         = {BEANS: The Benchmark of Animal Sounds},
+  author        = {Hagiwara, Masato and Hoffman, Benjamin and Liu, Jen-Yu and Cusimano, Maddie and Effenberger, Felix and Zacarian, Katie},
+  journal       = {arXiv preprint arXiv:2210.12300},
+  year          = {2022},
+  doi           = {10.48550/arXiv.2210.12300}
+}
+```
+
+
 ### AIS-based curation
 
 The AIS curation code is located in:
@@ -488,265 +749,6 @@ Download selected recordings
 
 The second workflow is intended for reproducing or extending the curation procedure.
 
-## MarineSet dataset statistics
-
-MarineSet was constructed using two complementary curation strategies.
-
-### AIS-based curation
-
-The AIS-based curation resulted in:
-
-- **968.2 hours** of acoustic data;
-- **6,540 unique vessels**; and
-- recordings from **28 hydrophones**.
-
-### HK-means-based curation
-
-The cluster-based curation resulted in:
-
-- **2,031.8 hours** of acoustic data; and
-- recordings from **43 hydrophones**.
-
-The two curation strategies provide complementary approaches to selecting representative underwater acoustic recordings.
-
-## Downstream datasets
-
-The repository also contains the code used to prepare the labeled datasets used for downstream evaluation.
-
-These datasets are divided into two categories:
-
-### Ship-type classification
-
-- DeepShip
-- ShipsEar
-
-### Marine mammal call classification
-
-- Watkins Marine Mammal Sound Database
-- DCLDE 2026
-
-The corresponding scripts are located in:
-
-```text
-MarineNet/classification_data/
-```
-
-The directory currently contains:
-
-```text
-MarineNet/classification_data/
-├── DCLDE2026_download.py
-├── DCLDE2026_split.py
-├── Watkins.py
-├── ship_data.py
-├── shipsEar_train.csv
-├── shipsEar_val.csv
-└── shipsEar_test.csv
-```
-
-## Ship-type dataset splits
-
-### DeepShip
-
-DeepShip contains four ship categories:
-
-- Cargo
-- Passengership
-- Tanker
-- Tug
-
-The split implemented in:
-
-```text
-MarineNet/classification_data/ship_data.py
-```
-
-is based on the recording date.
-
-The split boundary is:
-
-```text
-2017-12-01
-```
-
-Recordings before this date are assigned to the training set, while recordings on or after this date are assigned to the test set.
-
-Thus, the DeepShip split is **temporal rather than random**.
-
-This is important when comparing results, as the model is evaluated on recordings from a later period than those used for training.
-
-### ShipsEar
-
-ShipsEar uses explicit train, validation, and test split files:
-
-```text
-MarineNet/classification_data/shipsEar_train.csv
-MarineNet/classification_data/shipsEar_val.csv
-MarineNet/classification_data/shipsEar_test.csv
-```
-
-These files define the samples assigned to each split.
-
-The repository also contains code in:
-
-```text
-MarineNet/classification_data/ship_data.py
-```
-
-for organizing the ShipsEar audio according to these splits.
-
-## Marine mammal call dataset splits
-
-### Watkins Marine Mammal Sound Database
-
-The Watkins split used in this repository follows the split used by the **BEANS benchmark**.
-
-The split originates from:
-
-> Hagiwara et al., *BEANS: The Benchmark of Animal Sounds*, arXiv:2210.12300.
-
-The BEANS benchmark uses the Watkins Marine Mammal Sound Database with a **6:2:2 train/validation/test split**, with stratification across labels.
-
-Reference:
-
-```text
-https://arxiv.org/pdf/2210.12300
-```
-
-The corresponding split files are:
-
-```text
-annotations.train.csv
-annotations.valid.csv
-annotations.test.csv
-```
-
-The repository script:
-
-```text
-MarineNet/classification_data/Watkins.py
-```
-
-reads these annotation files and organizes the audio into:
-
-```text
-Data/watkins_split/
-├── train/
-├── val/
-└── test/
-```
-
-Within each split, audio files are further organized by their class label.
-
-The script therefore preserves the train/validation/test partition specified by the BEANS benchmark rather than generating a new random split.
-
-If the Watkins dataset is used, the BEANS paper should be cited.
-
-### DCLDE 2026
-
-The DCLDE 2026 split is created using:
-
-```text
-MarineNet/classification_data/DCLDE2026_split.py
-```
-
-The script reads the window metadata and reconstructs the recording datetime from the original recording path.
-
-Recordings are then sorted chronologically.
-
-The split is designed to allocate approximately:
-
-```text
-80% → training
-20% → testing
-```
-
-The important distinction is that the split is performed at the **recording level**, rather than independently for individual windows.
-
-This means that windows originating from the same recording are kept together in the same split. Consequently, a recording does not contribute windows to both the training and test sets.
-
-The resulting metadata files are:
-
-```text
-train.csv
-test.csv
-```
-
-and the corresponding audio windows are organized into:
-
-```text
-train/
-test/
-```
-
-This chronological recording-level split reduces the possibility of temporal leakage between training and testing.
-
-## Dataset split summary
-
-| Dataset | Task | Training split | Validation split | Test split | Split strategy |
-|---|---|---|---|---|---|
-| DeepShip | Ship type | Before 2017-12-01 | — | On/after 2017-12-01 | Temporal |
-| ShipsEar | Ship type | `shipsEar_train.csv` | `shipsEar_val.csv` | `shipsEar_test.csv` | Predefined split |
-| Watkins | Marine mammal calls | BEANS train split | BEANS validation split | BEANS test split | Stratified 6:2:2 |
-| DCLDE 2026 | Marine mammal calls | ~80% | — | ~20% | Chronological, recording-level |
-
-## MarineNet
-
-The repository also contains **MarineNet**, a baseline model for underwater acoustic representation learning.
-
-The MarineNet code is located in:
-
-```text
-MarineNet/
-```
-
-and contains:
-
-```text
-MarineNet/
-├── classification_data/
-├── support/
-├── Classification.py
-└── MarineNet.py
-```
-
-MarineNet is provided as a baseline for evaluating representations learned from the MarineSet data.
-
-The main focus of this repository, however, is the **MarineSet dataset and the large-scale data curation methodology** rather than MarineNet itself.
-
-## Publication
-
-The associated publication describing MarineSet is currently in preparation.
-
-> **Publication:** *To be added*
-
-A full citation and DOI will be added once the publication is available.
-
-## Citation
-
-If you use MarineSet, please cite the associated MarineSet publication once it is available.
-
-```bibtex
-@article{MarineSet,
-  title   = {To be added},
-  author  = {Hummel, Hilde},
-  journal = {To be added},
-  year    = {2026},
-  doi     = {To be added}
-}
-```
-
-If you use the Watkins Marine Mammal Sound Database split provided in this repository, please also cite the BEANS benchmark:
-
-```bibtex
-@article{hagiwara2022beans,
-  title         = {BEANS: The Benchmark of Animal Sounds},
-  author        = {Hagiwara, Masato and Hoffman, Benjamin and Liu, Jen-Yu and Cusimano, Maddie and Effenberger, Felix and Zacarian, Katie},
-  journal       = {arXiv preprint arXiv:2210.12300},
-  year          = {2022},
-  doi           = {10.48550/arXiv.2210.12300}
-}
-```
 
 ## Acknowledgements
 
