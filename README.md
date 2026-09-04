@@ -1,73 +1,72 @@
 # MarineSet
 
-Research code and data accompanying **MarineSet**, a curated large-scale dataset for underwater acoustics.
+Research code and data for **MarineSet**, a curated dataset for large-scale machine learning in underwater acoustics.
 
-MarineSet was developed to support machine learning research in passive acoustic monitoring (PAM), with a particular focus on large-scale data curation and self-supervised representation learning for underwater sound.
+MarineSet was developed to facilitate the development of general-purpose acoustic representations for **passive acoustic monitoring (PAM)**. The dataset is constructed from large-scale underwater acoustic recordings and uses automated curation based on both vessel activity and acoustic diversity.
 
-This repository contains:
-
-- Code for the automatic curation of large-scale underwater acoustic recordings.
-- MarineSet audio samples and associated metadata.
-- Direction-of-arrival (DOA) information.
-- Automatic Identification System (AIS) information.
-- Code for training and evaluating the MarineNet baseline model.
+This repository contains the code used for the MarineSet curation pipeline, associated metadata and samples, and code for training and evaluating the MarineNet baseline model.
 
 ---
 
 ## Overview
 
-Passive acoustic monitoring systems can collect large quantities of underwater audio over extended periods. These recordings contain information about vessels, marine mammals, environmental processes, and other acoustic events.
+Passive acoustic monitoring systems generate large volumes of underwater acoustic recordings. These recordings contain information about vessels, marine mammals, and other components of the marine soundscape. However, manually annotating such large datasets is expensive and difficult to scale.
 
-MarineSet addresses this problem through the automatic curation of large collections of underwater acoustic recordings. The dataset combines complementary curation strategies to construct a diverse collection of recordings suitable for machine learning and self-supervised representation learning.
+MarineSet addresses this challenge through **automated data curation**. The curation pipeline combines information from vessel tracking data with acoustic representations to select relevant and diverse recordings from large collections of underwater audio.
 
-The curation pipeline includes approaches based on:
+The repository contains two main curation approaches:
 
-- **AIS information**, to associate acoustic recordings with vessel activity.
-- **Acoustic representation learning and clustering**, to identify acoustically diverse samples from large collections of unlabeled recordings.
+1. **AIS-based curation**, which selects recordings associated with vessel activity.
+2. **Cluster-based acoustic curation**, which selects acoustically diverse recordings using learned audio representations and hierarchical clustering.
 
-The resulting dataset can be used for developing and evaluating machine learning methods for underwater acoustics, including self-supervised learning, transfer learning, ship-radiated noise classification, and marine bioacoustics.
+In addition, the repository contains the code used to train and evaluate **MarineNet**, a self-supervised underwater acoustic representation model.
 
 ---
 
-## Dataset
+# MarineSet
 
-MarineSet was constructed from long-term underwater acoustic recordings collected from hydrophone deployments in U.S. waters.
+MarineSet contains underwater acoustic recordings collected from long-term hydrophone deployments.
 
-The source recordings span multiple years and hydrophone locations, providing substantial variation in:
+The dataset is intended primarily for **self-supervised learning and representation learning**, but can also be used for downstream tasks such as:
 
-- Geographic location
-- Recording period
-- Season
-- Time of day
-- Vessel activity
-- Acoustic environment
+- Ship type classification
+- Ship-radiated noise classification
+- Marine mammal call classification
+- Passive acoustic monitoring
+- Acoustic similarity and clustering
+- Transfer learning
+- General-purpose underwater acoustic representation learning
 
-Two complementary curation strategies were used to construct MarineSet.
+The dataset contains associated metadata, including information about recording windows, hydrophones, acoustic annotations, AIS information, and direction-of-arrival (DOA) information where available.
+
+---
+
+## Dataset Curation
+
+MarineSet uses two complementary curation strategies.
 
 ### AIS-Based Curation
 
-AIS information is used to identify vessel activity associated with underwater acoustic recordings.
+The AIS-based curation pipeline uses Automatic Identification System (AIS) information to identify underwater recordings associated with vessel activity.
 
-Recordings are matched with nearby vessel activity using the geographic relationship between hydrophones and AIS positions. AIS positions are interpolated to obtain vessel locations at regular time intervals, which are then used to associate vessel activity with acoustic recordings.
+The pipeline associates acoustic recordings with nearby vessel activity based on the spatial and temporal relationship between hydrophones and AIS positions.
 
-The AIS-based curation resulted in:
-
-- **968.2 hours** of curated audio
-- **6,540 unique vessels**
-- **28 hydrophones**
-
-### Acoustic Clustering-Based Curation
-
-A second curation strategy is based on the acoustic content of the recordings.
-
-Audio recordings are converted into learned acoustic representations and subsequently clustered using hierarchical k-means (HK-means). The hierarchical clustering structure is used to select acoustically diverse recordings from the larger collection.
-
-The clustering-based curation resulted in:
-
-- **2,031.8 hours** of curated audio
-- **43 hydrophones**
-
-The HK-means hierarchy uses the following numbers of clusters:
+The general workflow is:
 
 ```text
-6000 → 400 → 40 → 10
+Underwater recordings
+        |
+        v
+Hydrophone metadata
+        |
+        v
+AIS vessel positions
+        |
+        v
+Spatial and temporal alignment
+        |
+        v
+Vessel-associated recordings
+        |
+        v
+MarineSet samples
