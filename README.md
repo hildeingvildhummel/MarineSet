@@ -41,558 +41,39 @@ The dataset contains associated metadata, including information about recording 
 
 ---
 
-## Dataset Curation
+The directory contains code for:
 
-MarineSet uses two complementary curation strategies.
+- AIS-based data curation and alignment;
+- AIS-based audio selection and downloading;
+- Conformer embedding extraction;
+- hierarchical K-means (HK-means) clustering;
+- cluster-based audio sampling;
+- downloading selected audio from the NOAA Google Cloud Storage bucket; and
+- administrative and data-processing steps used during the construction of MarineSet.
 
-### AIS-Based Curation
-
-The AIS-based curation pipeline uses Automatic Identification System (AIS) information to identify underwater recordings associated with vessel activity.
-
-The pipeline associates acoustic recordings with nearby vessel activity based on the spatial and temporal relationship between hydrophones and AIS positions.
-
-The general workflow is:
-
-```text
-Underwater recordings
-        |
-        v
-Hydrophone metadata
-        |
-        v
-AIS vessel positions
-        |
-        v
-Spatial and temporal alignment
-        |
-        v
-Vessel-associated recordings
-        |
-        v
-MarineSet samples
-```
+### AIS-based curation
 
 The AIS curation code is located in:
 
 ```text
 curationCode/AISCuration/
 ```
-The directory contains code for:
 
-- AIS data retrieval
-- AIS alignment
-- Vessel selection
-- Recording selection
-- Data administration
-
----
-
-### Acoustic Cluster-Based Curation
-
-The second curation strategy uses the acoustic content of the recordings rather than relying on labels.
-
-Audio recordings are converted into learned acoustic representations and subsequently clustered using hierarchical k-means (HK-means).
-
-The clustering hierarchy is:
+The directory contains:
 
 ```text
-6000
-  |
-  v
-400
-  |
-  v
-40
-  |
-  v
-10
+AISCuration/
+├── AISalignment/
+├── Administration/
+├── Selection/
+├── AISSelection.py
+├── AISdata.py
+├── GoogleCloudConnection.py
+├── config.yaml
+└── main.py
 ```
 
-This hierarchical approach allows recordings to be grouped at multiple levels of acoustic similarity.
-
-The general workflow is:
-```text
-Underwater recordings
-        |
-        v
-Acoustic representation
-        |
-        v
-Embedding extraction
-        |
-        v
-Hierarchical k-means
-        |
-        v
-Acoustic clusters
-        |
-        v
-Hierarchical sampling
-        |
-        v
-MarineSet samples
-```
-The cluster-based curation code is located in:
-```text
-curationCode/ClusterCuration/
-```
-
-The directory contains code for:
-
-- AIS data retrieval
-- AIS alignment
-- Vessel selection
-- Recording selection
-- Data administration
-
----
-
-# MarineSet Statistics
-
-The current MarineSet curation resulted in two main collections.
-
-| Curation strategy | Duration | Hydrophones | Additional information |
-|---|---:|---:|---|
-| AIS-based curation | 968.2 h | 28 | 6,540 unique vessels |
-| Cluster-based curation | 2,031.8 h | 43 | Acoustically diverse recordings |
-
-The AIS-based subset contains recordings associated with vessel activity identified using AIS information.
-
-The cluster-based subset was selected based on acoustic diversity and does not require manual acoustic labels.
-
----
-
-# MarineNet
-
-The repository also contains the code for **MarineNet**, a self-supervised underwater acoustic representation model.
-
-MarineNet uses a Wav2Vec 2.0 architecture initialized from speech-pretrained weights and further trained on underwater acoustic recordings using self-supervised learning.
-
-The MarineNet code is located in:
-
-```text
-MarineNet/
-```
-
-The main components are:
-
-```text
-MarineNet/
-|
-├── MarineNet.py
-|
-├── Classification.py
-|
-├── classification_data/
-|
-└── support/
-```
-
----
-
-## Self-Supervised Pretraining
-
-The self-supervised training code is located in:
-
-```text
-MarineNet/MarineNet.py
-```
-
-The model is initialized from:
-
-```text
-facebook/wav2vec2-base
-```
-
-and further pretrained using underwater acoustic recordings.
-
-The audio is processed at a sampling rate of **16 kHz** and divided into fixed-length windows.
-
-The resulting model can be used as a general-purpose feature extractor for underwater acoustic recordings.
-
----
-
-## Downstream Evaluation
-
-The downstream evaluation code is located in:
-
-```text
-MarineNet/Classification.py
-```
-
-The pretrained encoder is used to extract fixed-size acoustic representations.
-
-The encoder is kept frozen while a linear classifier is trained on the extracted representations.
-
-The general workflow is:
-
-```text
-Audio
-  |
-  v
-MarineNet encoder
-  |
-  v
-Frame-level representations
-  |
-  v
-Temporal mean pooling
-  |
-  v
-Fixed-size embedding
-  |
-  v
-Linear classifier
-  |
-  v
-Prediction
-```
-
-The classification code evaluates the representations using metrics including:
-
-- Accuracy
-- Mean Average Precision (mAP)
-- ROC-AUC
-- Weighted ROC-AUC
-- Confusion matrices
-
----
-
-# Downstream Datasets
-
-MarineNet is evaluated on four downstream datasets:
-
-### Ship Type Classification
-
-- **DeepShip**
-- **ShipsEar**
-
-### Marine Mammal Call Classification
-
-- **Watkins**
-- **DCLDE 2026**
-
-The split procedures used for these datasets are described below.
-
----
-
-## DeepShip
-
-DeepShip is used for **ship type classification**.
-
-The dataset contains four ship classes:
-
-```text
-Cargo
-Passengership
-Tanker
-Tug
-```
-
-The repository includes a script for creating a temporally separated train/test split:
-
-```text
-MarineNet/classification_data/ship_data.py
-```
-
-The split is based on the date encoded in the filename.
-
-The temporal boundary is:
-
-```text
-1 December 2017
-```
-
-Recordings before this date are assigned to the **training set**, while recordings on or after this date are assigned to the **test set**.
-
-This creates a temporal rather than random train/test split.
-
-```text
-DeepShip recordings
-        |
-        +--------------------+
-        |                    |
-        v                    v
-Before 2017-12-01       2017-12-01 or later
-        |                    |
-        v                    v
-     Training               Test
-```
-
----
-
-## ShipsEar
-
-ShipsEar is also used for **ship type classification**.
-
-The repository contains the corresponding split metadata:
-
-```text
-MarineNet/classification_data/shipsEar_train.csv
-MarineNet/classification_data/shipsEar_val.csv
-MarineNet/classification_data/shipsEar_test.csv
-```
-
-The dataset is divided into:
-
-- **Training**
-- **Validation**
-- **Test**
-
-The CSV files contain the metadata associated with each split.
-
-The corresponding data preparation code is contained in:
-
-```text
-MarineNet/classification_data/ship_data.py
-```
-
----
-
-## Watkins
-
-The Watkins dataset is used for **marine mammal call classification**.
-
-The repository contains a script for organizing the dataset according to the supplied annotation splits:
-
-```text
-MarineNet/classification_data/Watkins.py
-```
-
-The original Watkins annotation files are used to construct:
-
-```text
-Training
-Validation
-Test
-```
-
-The corresponding annotation files are:
-
-```text
-annotations.train.csv
-annotations.valid.csv
-annotations.test.csv
-```
-
-The script organizes the audio files into class-specific directories within each split.
-
-```text
-Watkins
-|
-├── train
-│   ├── class_1
-│   ├── class_2
-│   └── ...
-|
-├── val
-│   ├── class_1
-│   ├── class_2
-│   └── ...
-|
-└── test
-    ├── class_1
-    ├── class_2
-    └── ...
-```
-
----
-
-## DCLDE 2026
-
-DCLDE 2026 is used for **marine mammal call classification**.
-
-The split is generated using:
-
-```text
-MarineNet/classification_data/DCLDE2026_split.py
-```
-
-Unlike a random window-level split, the DCLDE 2026 data are divided **chronologically at the recording level**.
-
-Recordings are first ordered chronologically. Approximately **80% of the recordings** are assigned to the training set, with the remaining recordings assigned to the test set.
-
-```text
-DCLDE 2026 recordings
-        |
-        v
-Chronological ordering
-        |
-        v
-Approximately 80%
-        |
-        +----------------------+
-        |                      |
-        v                      v
-     Training                 Test
-```
-
-Importantly, complete recordings are kept within a single split. This prevents windows originating from the same recording from appearing in both training and test sets.
-
-The split script also saves:
-
-```text
-train.csv
-test.csv
-```
-
-containing the corresponding metadata.
-
----
-
-# Dataset Splits Summary
-
-| Dataset | Task | Training | Validation | Test | Split strategy |
-|---|---|---|---|---|---|
-| DeepShip | Ship type classification | ✓ | — | ✓ | Temporal split at 2017-12-01 |
-| ShipsEar | Ship type classification | ✓ | ✓ | ✓ | Predefined train/validation/test split |
-| Watkins | Marine mammal call classification | ✓ | ✓ | ✓ | Original dataset annotation splits |
-| DCLDE 2026 | Marine mammal call classification | ✓ | — | ✓ | Chronological ~80/20 recording-level split |
-
----
-
-# Installation
-
-The code is written in Python and uses common scientific machine learning libraries.
-
-The main dependencies include:
-
-```bash
-pip install torch
-pip install transformers
-pip install numpy
-pip install pandas
-pip install scikit-learn
-pip install torchmetrics
-pip install librosa
-pip install soundfile
-pip install tqdm
-```
-
-For GPU-based training, install a version of PyTorch compatible with the CUDA version available on your system.
-
----
-
-# Running the Code
-
-## MarineNet Pretraining
-
-Update the data and output paths in:
-
-```text
-MarineNet/MarineNet.py
-```
-
-and run:
-
-```bash
-cd MarineNet
-python MarineNet.py
-```
-
----
-
-## Downstream Classification
-
-Update the dataset paths in:
-
-```text
-MarineNet/Classification.py
-```
-
-and run:
-
-```bash
-python Classification.py
-```
-
-The classification code extracts MarineNet representations and trains a linear classifier on the downstream dataset.
-
----
-
-## Data Availability
-
-The MarineSet data will be publicly released through Zenodo.
-
-> **Data release: Work in progress**
->
-> The MarineSet data release on Zenodo is currently being prepared.
-> A Zenodo DOI will be added to this repository once the release is available.
->
-> **Zenodo DOI:** *To be added*
-
-The repository nevertheless contains the code required to reproduce the data selection and, where the necessary source data and credentials are available, download the selected audio from the original NOAA data source.
-
-### Important: Do not retrain the HK-means model unless necessary
-
-The hierarchical K-means (HK-means) curation pipeline is computationally expensive and time-consuming. The current implementation downloads large amounts of audio, extracts Conformer embeddings, and subsequently trains a hierarchical K-means model with four levels using:
-
-```text
-[6000, 400, 40, 10]
-```
-
-clusters. The pipeline processes the data in batches, but retraining the HK-means model still requires substantial computational resources and can take a considerable amount of time.
-
-**Therefore, retraining HK-means is not recommended simply to obtain the released MarineSet samples.**
-
-Once the Zenodo release is available, users should download the already-curated MarineSet data directly from Zenodo rather than rerunning the complete curation pipeline.
-
-The curation code is provided primarily for:
-
-- understanding how MarineSet was constructed;
-- reproducing the curation procedure;
-- investigating alternative curation strategies;
-- extending the dataset with additional source data; and
-- reproducing the experiments described in the associated publication.
-
-The HK-means configuration used for the MarineSet curation is stored in:
-
-```text
-curationCode/ClusterCuration/config.yaml
-```
-
-and contains the hierarchy, sampling parameters, and total number of samples used during curation.
-
----
-
-## Downloading MarineSet Audio
-
-### Recommended approach: download the Zenodo release
-
-Once the Zenodo publication is available, the recommended procedure is:
-
-1. Download the MarineSet archive from Zenodo.
-2. Extract the archive locally.
-3. Use the provided metadata files to identify recordings, hydrophones, timestamps, and other associated information.
-4. Use the extracted audio directly for downstream experiments.
-
-The Zenodo DOI and exact file structure will be added to this README after the data publication has been finalized.
-
-**Zenodo DOI:** *To be added*
-
----
-
-### Reproducing the download using the repository code
-
-Before the Zenodo release is available, the repository provides code for downloading the selected source recordings directly from the NOAA Passive Bioacoustic Google Cloud Storage bucket.
-
-The relevant code is located in:
-
-```text
-curationCode/
-├── AISCuration/
-└── ClusterCuration/
-```
-
-The two curation approaches use slightly different procedures.
-
-### 1. AIS-based MarineSet selection
-
-The AIS-based curation code is located in:
-
-```text
-curationCode/AISCuration/
-```
+The AIS-based pipeline uses AIS information to identify recordings associated with vessel activity and subsequently retrieves the corresponding acoustic recordings.
 
 The main entry point is:
 
@@ -602,138 +83,100 @@ curationCode/AISCuration/main.py
 
 The pipeline consists of two main stages:
 
-1. AIS-based selection of suitable recording periods.
-2. Extraction and download of the corresponding audio.
+1. AIS-based curation and selection.
+2. Retrieval of the corresponding acoustic recordings from the NOAA Google Cloud Storage bucket.
 
-The configuration is stored in:
+The `main.py` script loads its settings from:
 
 ```text
 curationCode/AISCuration/config.yaml
 ```
 
-The default configuration specifies the NOAA Google Cloud Storage bucket:
+The configuration specifies, among other things, the AIS curation parameters, input/output directories, and the NOAA Google Cloud Storage bucket.
 
-```yaml
-cloud:
-  bucket_name: noaa-passive-bioacoustic
+Before running the AIS pipeline, Google Cloud authentication needs to be configured. The repository refers to the Google Cloud authentication instructions in the `main.py` script.
+
+The AIS pipeline can be run from the `AISCuration` directory using:
+
+```bash
+python main.py
 ```
 
-The pipeline also uses:
+Alternatively, a different configuration file can be supplied:
+
+```bash
+python main.py --config <path_to_config.yaml>
+```
+
+The AIS curation parameter `t` can also be overridden from the command line:
+
+```bash
+python main.py --config <path_to_config.yaml> --t <value>
+```
+
+To explicitly rerun the AIS curation rather than using an existing curated AIS selection:
+
+```bash
+python main.py --config <path_to_config.yaml> --run-curation
+```
+
+The pipeline stores the resulting AIS selection as a pickle file and subsequently passes this selection to the audio extraction stage.
+
+### Downloading NOAA audio using the AIS selection
+
+The NOAA audio is accessed through Google Cloud Storage.
+
+The relevant functionality is implemented in:
 
 ```text
-Administration/AISInformation.xlsx
+curationCode/AISCuration/GoogleCloudConnection.py
 ```
 
-and the AIS alignment/selection information contained in the `AISCuration` directory.
+The code uses the NOAA Passive Bioacoustic Google Cloud project and provides functions for:
 
-#### Step 1: Clone the repository
+- listing files in a Google Cloud Storage folder;
+- obtaining the names of available `.flac` and `.wav` files;
+- downloading an individual file; and
+- downloading a complete folder.
 
-```bash
-git clone https://github.com/hildeingvildhummel/MarineSet.git
-cd MarineSet
-```
-
-#### Step 2: Install the required dependencies
-
-The AIS download code uses Google Cloud Storage and therefore requires the Google Cloud Python libraries, in addition to the packages used by the curation code.
-
-At minimum, the Google Cloud Storage functionality requires:
-
-```bash
-pip install google-cloud-storage
-```
-
-Additional dependencies used by the repository include packages such as:
-
-```bash
-pip install numpy pandas pyyaml soundfile
-```
-
-Depending on which parts of the pipeline are executed, additional dependencies may be required.
-
-#### Step 3: Configure Google Cloud authentication
-
-The download code uses the Google Cloud Storage Python client:
-
-```python
-from google.cloud import storage
-```
-
-and accesses the bucket:
+The bucket used by the code is:
 
 ```text
 noaa-passive-bioacoustic
 ```
 
-Google Cloud authentication therefore needs to be configured before running the download pipeline.
-
-The repository's `main.py` also points users to the Google Cloud authentication documentation:
-
-```text
-https://googleapis.dev/python/google-api-core/latest/auth.html
-```
-
-Authentication is required to access the source data. The repository does **not** contain credentials.
-
-#### Step 4: Check the AIS configuration
-
-Open:
-
-```text
-curationCode/AISCuration/config.yaml
-```
-
-The default configuration contains:
-
-```yaml
-curation:
-  run: false
-  t: 250
-  ais_folder: AISalignment/
-
-paths:
-  info_excel: Administration/AISInformation.xlsx
-  selection_dir: Selection
-  temp_dir: temp
-  output_dir: AIS
-
-cloud:
-  bucket_name: noaa-passive-bioacoustic
-```
-
-The `run` parameter determines whether the AIS curation is rerun.
-
-If an existing curated AIS selection is available, the pipeline can reuse it. If AIS curation needs to be performed, it can be forced using:
-
-```bash
-python main.py --config config.yaml --run-curation
-```
-
-The main script first creates or loads the curated AIS selection and then passes this selection to the audio extraction stage.
-
-#### Step 5: Download the selected audio
-
-The audio extraction is performed by the `AISAudioExtractor` used in:
+The higher-level audio extraction is implemented in:
 
 ```text
 curationCode/AISCuration/AISSelection.py
 ```
 
-The extractor uses the curated AIS selection together with the recording information in:
+The `AISAudioExtractor` uses the curated AIS selection together with the recording information stored in the administrative data to identify the corresponding NOAA recordings.
+
+The overall AIS-based workflow is therefore:
 
 ```text
-Administration/AISInformation.xlsx
+AIS data
+   │
+   ▼
+AIS alignment
+   │
+   ▼
+AIS-based selection
+   │
+   ▼
+Selected recording locations/timestamps
+   │
+   ▼
+NOAA Google Cloud Storage
+   │
+   ▼
+Selected acoustic recordings
 ```
 
-to identify the corresponding source recordings.
+This approach avoids downloading the entire NOAA archive. Instead, the pipeline identifies the recordings required by the AIS-based selection and retrieves those recordings from the NOAA cloud storage.
 
-The selected audio is downloaded from the NOAA Google Cloud Storage bucket into the configured temporary/output directories.
-
-The download therefore does **not** require downloading the entire NOAA archive. The purpose of the selection step is to identify only the recordings corresponding to the curated AIS samples.
-
----
-
-## Downloading the HK-means-curated MarineSet samples
+### Cluster-based curation
 
 The cluster-based curation code is located in:
 
@@ -741,197 +184,385 @@ The cluster-based curation code is located in:
 curationCode/ClusterCuration/
 ```
 
-The directory contains the following main stages:
+The directory contains:
 
 ```text
 ClusterCuration/
-├── Conformer_Embeddings.py
-├── Encoder.py
-├── AudioCuration_TrainHKmeans.py
-├── HierarchicalKMeans.py
+├── Administration/
 ├── AudioCuration_Sampling.py
+├── AudioCuration_TrainHKmeans.py
+├── Conformer_Embeddings.py
 ├── Download_Selection.py
+├── Encoder.py
 ├── GoogleCloudConnection.py
+├── HierarchicalKMeans.py
+├── clusters.py
+├── config.yaml
 ├── hierarchical_sampling.py
 ├── kmeans.py
-└── main.py
+├── main.py
+└── support.py
 ```
 
-The complete pipeline implemented in `main.py` consists of:
+The cluster-based pipeline consists of:
 
 ```text
-NOAA audio
-    ↓
-Download source recordings
-    ↓
-Conformer embedding extraction
-    ↓
-Hierarchical K-means training
-    ↓
-Sampling from HK-means
-    ↓
-Download selected audio
+NOAA acoustic recordings
+        │
+        ▼
+Conformer embeddings
+        │
+        ▼
+Hierarchical K-means
+        │
+        ▼
+Cluster-based sampling
+        │
+        ▼
+Selected recordings
+        │
+        ▼
+NOAA audio download
 ```
 
-The current configuration uses:
-
-```yaml
-audio:
-  samplerate: 16000
-  sample_size: 10
-
-hkmeans:
-  n_clusters: [6000, 400, 40, 10]
-  n_levels: 4
-  sample_sizes: [2200, 8, 5, 2]
-  N_total: 731447
-```
-
-### Do not run the complete pipeline just to download MarineSet
-
-Running:
-
-```bash
-python main.py --config config.yaml --dest <destination> --save <model_name>
-```
-
-runs the complete cluster-based pipeline.
-
-In particular, the script contains a stage that trains HK-means:
+The main entry point is:
 
 ```text
-TRAIN HIERARCHICAL KMEANS
+curationCode/ClusterCuration/main.py
 ```
 
-and subsequently performs resampling using the trained model.
-
-This is **not recommended for ordinary MarineSet users**, because it requires downloading source audio, extracting embeddings, and retraining the hierarchical clustering model.
-
-Instead, users should use the precomputed MarineSet release once it is available through Zenodo.
-
----
-
-## How the repository downloads individual selected recordings
-
-The lower-level download functionality is implemented in:
+The configuration is specified in:
 
 ```text
-curationCode/ClusterCuration/GoogleCloudConnection.py
+curationCode/ClusterCuration/config.yaml
 ```
 
-This module provides functions for:
+The configuration contains the parameters required for the audio processing, embedding extraction, HK-means hierarchy, sampling procedure, and paths to intermediate files.
 
-- obtaining the available files in a Google Cloud Storage folder;
-- downloading an individual file; and
-- downloading files from a source folder.
+### Important: HK-means retraining is not recommended
 
-The NOAA bucket used by the code is:
+**Retraining the hierarchical K-means model is computationally expensive and time-consuming and is not recommended if the goal is simply to obtain or use MarineSet.**
+
+The cluster-based curation pipeline requires processing a large amount of acoustic data, extracting Conformer embeddings, and training a hierarchical K-means model. The HK-means hierarchy contains multiple clustering levels, making the training substantially more expensive than applying an already-trained model.
+
+The relevant training code is:
 
 ```text
-noaa-passive-bioacoustic
+curationCode/ClusterCuration/AudioCuration_TrainHKmeans.py
+curationCode/ClusterCuration/HierarchicalKMeans.py
 ```
 
-The `download_file()` function downloads a specific object from the bucket:
-
-```python
-download_file(
-    "noaa-passive-bioacoustic",
-    source_file,
-    destination_file_name
-)
-```
-
-The `download_folder()` function can download files belonging to a particular source folder.
-
-The cluster-based pipeline constructs source folders from the AIS information and then downloads the corresponding audio before processing it.
-
-The `Download_Selection.py` module contains the higher-level logic for converting the selected timestamps into the corresponding NOAA audio files. In particular, `sampled_curation()`:
-
-1. reads the selected timestamps from the curation output;
-2. identifies the corresponding hydrophone and source path;
-3. queries the NOAA Google Cloud Storage bucket;
-4. determines which source audio file contains the selected timestamp;
-5. extracts the relevant temporal section; and
-6. downloads the corresponding source file.
-
-The code uses 10-second sections when extracting the selected audio:
-
-```python
-audio, sr = read_audio_section(
-    file,
-    start_secs,
-    start_secs + 10
-)
-```
-
-This allows the curated selections to be mapped back to the original NOAA recordings without requiring the complete source archive to be downloaded.
-
----
-
-## Reproducing the HK-means selection from precomputed models
-
-If the pre-trained HK-means model and the associated intermediate files are available, the final sampling stage can be reproduced without retraining the HK-means model.
-
-The relevant code is:
+The sampling stage is implemented separately in:
 
 ```text
 curationCode/ClusterCuration/AudioCuration_Sampling.py
 ```
 
-and:
+For this reason, users should **not retrain HK-means merely to download or use the MarineSet samples**.
 
-```text
-curationCode/ClusterCuration/HierarchicalKMeans.py
+The curation code is provided primarily to:
+
+- document the MarineSet curation procedure;
+- reproduce the curation methodology;
+- investigate the effect of alternative sampling strategies;
+- extend the curation procedure to additional data; and
+- support methodological research on large-scale underwater acoustic data curation.
+
+Once the MarineSet data are released on Zenodo, the recommended approach for users is to download the **pre-curated dataset** rather than rerunning the complete HK-means pipeline.
+
+## Data Availability
+
+The final MarineSet data publication is currently **work in progress**.
+
+The curated MarineSet data will be made publicly available through Zenodo. A DOI and direct download instructions will be added to this repository once the Zenodo record has been published.
+
+> **Data release: Work in progress**
+>
+> The MarineSet data are currently being prepared for publication on Zenodo.
+> The Zenodo DOI will be added to this README once the data release is available.
+>
+> **Zenodo DOI:** *To be added*
+
+Until the Zenodo release is available, the repository contains the code used to construct MarineSet and the code required to retrieve selected recordings from the underlying NOAA data source.
+
+## Reproducing the MarineSet data download
+
+The repository provides two related routes for obtaining acoustic data:
+
+1. **AIS-based selection and download**, using the AIS curation pipeline.
+2. **HK-means-based selection and download**, using the cluster curation pipeline.
+
+These should not be confused with directly downloading the final MarineSet release.
+
+The final Zenodo release will contain the **already-curated MarineSet samples**. Re-running the complete curation pipeline is primarily intended for reproduction of the methodology rather than routine dataset access.
+
+### Step 1: Clone the repository
+
+Clone the repository:
+
+```bash
+git clone https://github.com/hildeingvildhummel/MarineSet.git
+cd MarineSet
 ```
 
-The intended workflow is:
+The curation code is located in:
 
 ```text
-Precomputed Conformer embeddings
-        +
-Pretrained HK-means model
-        ↓
-HK-means sampling
-        ↓
-MarineSet selection
-        ↓
-Download selected NOAA recordings
+curationCode/
 ```
 
-This is substantially preferable to retraining the HK-means model.
+### Step 2: Set up Google Cloud authentication
 
-However, the exact intermediate files required for this procedure are part of the internal curation workflow and will be superseded for normal users by the finalized Zenodo release.
+The MarineSet curation code retrieves source audio from the NOAA Passive Bioacoustic Google Cloud Storage bucket.
 
----
-
-## Source Data
-
-The audio used to construct MarineSet originates from the NOAA Passive Bioacoustic Data Collection and is accessed in the repository through the Google Cloud Storage bucket:
+The relevant bucket is:
 
 ```text
 noaa-passive-bioacoustic
 ```
 
-The repository therefore contains code for accessing the source data, but users should distinguish between:
+Google Cloud authentication must therefore be configured before the download scripts are executed.
 
-1. **the original NOAA source data**;
-2. **the intermediate curation products**, such as AIS selections, embeddings, and HK-means models; and
-3. **the final curated MarineSet dataset**.
+The AIS pipeline explicitly refers to the Google Cloud authentication instructions in `main.py`.
 
-MarineSet users interested only in using the dataset should download the **final curated dataset** from Zenodo once the release becomes available.
+The repository does not contain authentication credentials. Users must configure their own Google Cloud authentication according to the requirements of the NOAA data source and Google Cloud Storage.
 
----
+### Step 3: AIS-based download
 
-## Downstream Dataset Splits
+If you want to reproduce the AIS-based selection, move to:
 
-MarineSet is evaluated together with existing labeled datasets for both ship-type classification and marine mammal call classification.
+```bash
+cd curationCode/AISCuration
+```
+
+The pipeline is controlled through:
+
+```text
+config.yaml
+```
+
+The default configuration can be used directly, or copied and modified for a different experiment.
+
+Run:
+
+```bash
+python main.py
+```
+
+The script performs the following operations:
+
+```text
+1. Load the configuration
+2. Load the AIS information
+3. Create or load the curated AIS selection
+4. Save the AIS selection
+5. Initialize the AIS audio extractor
+6. Identify the corresponding NOAA recordings
+7. Download/process the selected recordings
+```
+
+If the AIS selection has already been generated, the existing selection can be reused rather than performing the AIS curation again.
+
+To explicitly rerun the AIS curation:
+
+```bash
+python main.py --run-curation
+```
+
+The resulting acoustic recordings are written to the output directory specified in the configuration.
+
+### Step 4: Direct interaction with the NOAA cloud storage
+
+The lower-level Google Cloud functionality is implemented in:
+
+```text
+curationCode/AISCuration/GoogleCloudConnection.py
+```
+
+The same functionality is also used by the cluster-based curation code.
+
+The module provides:
+
+```python
+get_file_names(...)
+```
+
+for identifying `.flac` and `.wav` files in a source folder, and:
+
+```python
+download_file(...)
+```
+
+for downloading a specific file.
+
+A file can therefore be retrieved once its full Google Cloud Storage object path is known.
+
+The code also provides:
+
+```python
+download_folder(...)
+```
+
+for downloading files belonging to a specified source folder.
+
+The download functionality includes a date check and is designed around the NOAA recordings used for MarineSet.
+
+### Step 5: Cluster-based download
+
+The cluster-based download procedure is implemented in:
+
+```text
+curationCode/ClusterCuration/Download_Selection.py
+```
+
+This code connects the selected samples produced by the cluster-based curation procedure back to the original NOAA recordings.
+
+The procedure identifies the source recording corresponding to a selected timestamp and retrieves the relevant acoustic data from Google Cloud Storage.
+
+The relevant functionality includes:
+
+```python
+get_file_names(...)
+download_file(...)
+read_audio_section(...)
+```
+
+The audio is read from the original recording after identifying the appropriate source file and temporal location.
+
+The cluster-based download workflow is therefore:
+
+```text
+HK-means-selected samples
+        │
+        ▼
+Selected timestamps
+        │
+        ▼
+Identify corresponding NOAA recording
+        │
+        ▼
+Query NOAA Google Cloud Storage
+        │
+        ▼
+Download source recording
+        │
+        ▼
+Extract selected acoustic section
+```
+
+### Step 6: Running the complete cluster-cura­tion pipeline
+
+The complete cluster-based pipeline can be launched using:
+
+```bash
+cd curationCode/ClusterCuration
+python main.py --config config.yaml --dest <download_directory> --save <model_name>
+```
+
+The arguments are:
+
+```text
+--config    Path to the YAML configuration file
+--dest      Local directory for downloaded data
+--save      Name/path used for saving the HK-means model
+```
+
+However, **running this command is not recommended if your only goal is to obtain MarineSet**.
+
+The complete pipeline includes the computationally expensive HK-means training stage. It may therefore require substantial computational resources and considerable processing time.
+
+For normal dataset use, the preferred workflow is:
+
+```text
+Zenodo
+  │
+  ▼
+Download pre-curated MarineSet
+  │
+  ▼
+Use MarineSet for experiments
+```
+
+rather than:
+
+```text
+NOAA
+  │
+  ▼
+Download large-scale source data
+  │
+  ▼
+Extract Conformer embeddings
+  │
+  ▼
+Train HK-means
+  │
+  ▼
+Perform sampling
+  │
+  ▼
+Download selected recordings
+```
+
+The second workflow is intended for reproducing or extending the curation procedure.
+
+## MarineSet dataset statistics
+
+MarineSet was constructed using two complementary curation strategies.
+
+### AIS-based curation
+
+The AIS-based curation resulted in:
+
+- **968.2 hours** of acoustic data;
+- **6,540 unique vessels**; and
+- recordings from **28 hydrophones**.
+
+### HK-means-based curation
+
+The cluster-based curation resulted in:
+
+- **2,031.8 hours** of acoustic data; and
+- recordings from **43 hydrophones**.
+
+The two curation strategies provide complementary approaches to selecting representative underwater acoustic recordings.
+
+## Downstream datasets
+
+The repository also contains the code used to prepare the labeled datasets used for downstream evaluation.
+
+These datasets are divided into two categories:
 
 ### Ship-type classification
 
-The ship-type datasets are:
+- DeepShip
+- ShipsEar
 
-- **DeepShip**
-- **ShipsEar**
+### Marine mammal call classification
+
+- Watkins Marine Mammal Sound Database
+- DCLDE 2026
+
+The corresponding scripts are located in:
+
+```text
+MarineNet/classification_data/
+```
+
+The directory currently contains:
+
+```text
+MarineNet/classification_data/
+├── DCLDE2026_download.py
+├── DCLDE2026_split.py
+├── Watkins.py
+├── ship_data.py
+├── shipsEar_train.csv
+├── shipsEar_val.csv
+└── shipsEar_test.csv
+```
+
+## Ship-type dataset splits
 
 ### DeepShip
 
@@ -942,7 +573,13 @@ DeepShip contains four ship categories:
 - Tanker
 - Tug
 
-The repository creates a temporal train/test split based on the recording date.
+The split implemented in:
+
+```text
+MarineNet/classification_data/ship_data.py
+```
+
+is based on the recording date.
 
 The split boundary is:
 
@@ -950,95 +587,162 @@ The split boundary is:
 2017-12-01
 ```
 
-Recordings before this date are assigned to the training set, while recordings from this date onward are assigned to the test set.
+Recordings before this date are assigned to the training set, while recordings on or after this date are assigned to the test set.
 
-The implementation can be found in:
+Thus, the DeepShip split is **temporal rather than random**.
+
+This is important when comparing results, as the model is evaluated on recordings from a later period than those used for training.
+
+### ShipsEar
+
+ShipsEar uses explicit train, validation, and test split files:
+
+```text
+MarineNet/classification_data/shipsEar_train.csv
+MarineNet/classification_data/shipsEar_val.csv
+MarineNet/classification_data/shipsEar_test.csv
+```
+
+These files define the samples assigned to each split.
+
+The repository also contains code in:
 
 ```text
 MarineNet/classification_data/ship_data.py
 ```
 
-This is therefore a **date-based split**, rather than a random sample-level split.
+for organizing the ShipsEar audio according to these splits.
 
-### ShipsEar
-
-ShipsEar uses explicit train, validation, and test split files provided in the repository:
-
-```text
-MarineNet/classification_data/
-├── shipsEar_train.csv
-├── shipsEar_val.csv
-└── shipsEar_test.csv
-```
-
-These files define the samples used for training, validation, and testing.
-
----
-
-## Marine Mammal Call Classification
-
-The marine mammal datasets are:
-
-- **Watkins Marine Mammal Sound Database**
-- **DCLDE 2026**
+## Marine mammal call dataset splits
 
 ### Watkins Marine Mammal Sound Database
 
-The Watkins split follows the split used by **BEANS (The Benchmark of Animal Sounds)**.
+The Watkins split used in this repository follows the split used by the **BEANS benchmark**.
 
-The BEANS paper is:
+The split originates from:
 
-> Hagiwara, M., Hoffman, B., Liu, J.-Y., Cusimano, M., Effenberger, F., & Zacarian, K. (2022). *BEANS: The Benchmark of Animal Sounds*. arXiv:2210.12300.
+> Hagiwara et al., *BEANS: The Benchmark of Animal Sounds*, arXiv:2210.12300.
 
-The BEANS benchmark uses the Watkins Marine Mammal Sound Database as a classification dataset and creates a **6:2:2 train/validation/test split with stratification**. The paper reports 1,017 training samples, 339 validation samples, and 339 test samples across 31 labels. :contentReference[oaicite:2]{index=2}
+The BEANS benchmark uses the Watkins Marine Mammal Sound Database with a **6:2:2 train/validation/test split**, with stratification across labels.
 
-The corresponding split is implemented in:
+Reference:
+
+```text
+https://arxiv.org/pdf/2210.12300
+```
+
+The corresponding split files are:
+
+```text
+annotations.train.csv
+annotations.valid.csv
+annotations.test.csv
+```
+
+The repository script:
 
 ```text
 MarineNet/classification_data/Watkins.py
 ```
 
-The paper is available at:
+reads these annotation files and organizes the audio into:
 
 ```text
-https://arxiv.org/abs/2210.12300
+Data/watkins_split/
+├── train/
+├── val/
+└── test/
 ```
+
+Within each split, audio files are further organized by their class label.
+
+The script therefore preserves the train/validation/test partition specified by the BEANS benchmark rather than generating a new random split.
+
+If the Watkins dataset is used, the BEANS paper should be cited.
 
 ### DCLDE 2026
 
-The DCLDE 2026 dataset is split chronologically at the recording level.
-
-The repository first orders recordings chronologically and then assigns approximately 80% of the available windows to training and the remaining approximately 20% to testing.
-
-Importantly, the split boundary is determined at the **recording level**, meaning that individual recordings are kept entirely within either the training or testing set.
-
-The split can be reproduced using:
+The DCLDE 2026 split is created using:
 
 ```text
 MarineNet/classification_data/DCLDE2026_split.py
 ```
 
-The resulting files are:
+The script reads the window metadata and reconstructs the recording datetime from the original recording path.
+
+Recordings are then sorted chronologically.
+
+The split is designed to allocate approximately:
+
+```text
+80% → training
+20% → testing
+```
+
+The important distinction is that the split is performed at the **recording level**, rather than independently for individual windows.
+
+This means that windows originating from the same recording are kept together in the same split. Consequently, a recording does not contribute windows to both the training and test sets.
+
+The resulting metadata files are:
 
 ```text
 train.csv
 test.csv
 ```
 
-and the corresponding windows are organized into:
+and the corresponding audio windows are organized into:
 
 ```text
 train/
 test/
 ```
 
-This prevents windows from the same original recording from being distributed across both training and testing sets.
+This chronological recording-level split reduces the possibility of temporal leakage between training and testing.
 
----
+## Dataset split summary
+
+| Dataset | Task | Training split | Validation split | Test split | Split strategy |
+|---|---|---|---|---|---|
+| DeepShip | Ship type | Before 2017-12-01 | — | On/after 2017-12-01 | Temporal |
+| ShipsEar | Ship type | `shipsEar_train.csv` | `shipsEar_val.csv` | `shipsEar_test.csv` | Predefined split |
+| Watkins | Marine mammal calls | BEANS train split | BEANS validation split | BEANS test split | Stratified 6:2:2 |
+| DCLDE 2026 | Marine mammal calls | ~80% | — | ~20% | Chronological, recording-level |
+
+## MarineNet
+
+The repository also contains **MarineNet**, a baseline model for underwater acoustic representation learning.
+
+The MarineNet code is located in:
+
+```text
+MarineNet/
+```
+
+and contains:
+
+```text
+MarineNet/
+├── classification_data/
+├── support/
+├── Classification.py
+└── MarineNet.py
+```
+
+MarineNet is provided as a baseline for evaluating representations learned from the MarineSet data.
+
+The main focus of this repository, however, is the **MarineSet dataset and the large-scale data curation methodology** rather than MarineNet itself.
+
+## Publication
+
+The associated publication describing MarineSet is currently in preparation.
+
+> **Publication:** *To be added*
+
+A full citation and DOI will be added once the publication is available.
 
 ## Citation
 
-If you use MarineSet, please cite the associated publication:
+If you use MarineSet, please cite the associated MarineSet publication once it is available.
 
 ```bibtex
 @article{MarineSet,
@@ -1050,11 +754,7 @@ If you use MarineSet, please cite the associated publication:
 }
 ```
 
-The final citation will be added once the associated publication and Zenodo release are available.
-
-### Watkins / BEANS
-
-If you use the Watkins split, please also cite the BEANS paper:
+If you use the Watkins Marine Mammal Sound Database split provided in this repository, please also cite the BEANS benchmark:
 
 ```bibtex
 @article{hagiwara2022beans,
@@ -1065,24 +765,19 @@ If you use the Watkins split, please also cite the BEANS paper:
   doi           = {10.48550/arXiv.2210.12300}
 }
 ```
----
 
-# Acknowledgements
+## Acknowledgements
 
-MarineSet builds on data collected by a number of organizations and research initiatives. Please consult the accompanying dataset documentation and publication for detailed information about the original data sources and acknowledgements.
+MarineSet uses acoustic data originating from the NOAA Passive Bioacoustic Data Collection.
 
----
+We thank the organizations and researchers responsible for collecting, maintaining, and making the underlying acoustic and AIS data available.
 
-# License
+## License
 
-Please see the repository license for information about permitted use, modification, and redistribution.
+Please refer to the license and usage conditions of the original data sources before redistributing or using the underlying NOAA recordings.
 
----
+The code in this repository is provided for research purposes.
 
-# Contact
+## Contact
 
-For questions, issues, or suggestions regarding MarineSet or the accompanying code, please open an issue in this repository.
-
-Repository:
-
-https://github.com/hildeingvildhummel/MarineSet
+For questions regarding MarineSet or the associated curation code, please open an issue in this repository or contact the authors.
