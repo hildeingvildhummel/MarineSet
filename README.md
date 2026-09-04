@@ -102,12 +102,6 @@ The AIS pipeline can be run from the `AISCuration` directory using:
 python main.py
 ```
 
-Alternatively, a different configuration file can be supplied:
-
-```bash
-python main.py --config <path_to_config.yaml>
-```
-
 The pipeline stores the resulting AIS selection as a pickle file and subsequently passes this selection to the audio extraction stage.
 
 ### Downloading NOAA audio using the AIS selection
