@@ -37,7 +37,7 @@ The dataset is intended primarily for **self-supervised learning and representat
 - Transfer learning
 - General-purpose underwater acoustic representation learning
 
-The dataset contains associated metadata, including information about recording windows, hydrophones, acoustic annotations, AIS information, and direction-of-arrival (DOA) information where available.
+The dataset contains associated metadata, including information about recording windows, hydrophones, AIS information, and direction-of-arrival (DOA) information where available.
 
 ---
 
